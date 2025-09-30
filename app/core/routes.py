@@ -101,3 +101,37 @@ def download_podcast(podcast_id):
         return redirect(url_for('core_bp.dashboard'))
 
     return send_file(podcast.generated_audio_path, as_attachment=True)
+
+@core_bp.route('/podcast/delete/<int:podcast_id>', methods=['POST'])
+@login_required
+def delete_podcast(podcast_id):
+    """
+    Deletes a podcast record from the database and its associated audio file.
+    """
+    # Find the podcast in the database or return a 404 error
+    podcast = Podcast.query.get_or_404(podcast_id)
+
+    # Security Check: Ensure the podcast belongs to the current user
+    if podcast.author.id != current_user.id:
+        flash('You do not have permission to delete this podcast.', 'danger')
+        abort(403) # Forbidden
+
+    try:
+        # Check if an audio file exists and delete it from the server's filesystem
+        if podcast.generated_audio_path and os.path.exists(podcast.generated_audio_path):
+            os.remove(podcast.generated_audio_path)
+            print(f"Deleted audio file: {podcast.generated_audio_path}")
+
+        # Delete the record from the database
+        db.session.delete(podcast)
+        db.session.commit()
+        flash('Podcast history entry has been successfully deleted.', 'success')
+
+    except Exception as e:
+        # If anything goes wrong, roll back the change and show an error
+        db.session.rollback()
+        flash(f'Error deleting podcast: {e}', 'danger')
+        print(f"Error during podcast deletion: {e}")
+
+    # Redirect the user back to the dashboard
+    return redirect(url_for('core_bp.dashboard'))
