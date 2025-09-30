@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="about-header fade-in">
+    <hgroup>
+        <h1 data-delay="0.2s" class="fade-in">Revolutionizing Content with Voice</h1>
+        <h2 data-delay="0.4s" class="fade-in" style="color: var(--text-muted-color);">Welcome to Podcast AI, where your documents learn to speak.</h2>
+    </hgroup>
+    <p data-delay="0.6s" class="fade-in">
+        We believe in making information more accessible, engaging, and human. Our mission is to empower creators, educators, and businesses by transforming static text into dynamic, high-quality audio experiences that can be enjoyed anywhere.
+    </p>
+</section>
+
+<section class="process-section">
+    <h2 class="fade-in">Our Process: From Text to Voice</h2>
+    <div class="process-flow">
+        <div class="process-step fade-in" data-delay="0.2s">
+            <div class="process-icon"><i class="fas fa-file-arrow-up"></i></div>
+            <h3>1. Content Ingestion</h3>
+            <p>You begin by securely uploading a document (PDF or TXT). Our system intelligently extracts the core text, preparing it for transformation.</p>
+        </div>
+
+        <div class="process-arrow fade-in" data-delay="0.4s"><i class="fas fa-arrow-right"></i></div>
+
+        <div class="process-step fade-in" data-delay="0.6s">
+            <div class="process-icon"><i class="fas fa-microchip"></i></div>
+            <h3>2. AI Script Generation</h3>
+            <p>The text is passed to a Large Language Model, which reimagines it as a natural, conversational script between multiple speakers.</p>
+        </div>
+
+        <div class="process-arrow fade-in" data-delay="0.8s"><i class="fas fa-arrow-right"></i></div>
+
+        <div class="process-step fade-in" data-delay="1.0s">
+            <div class="process-icon"><i class="fas fa-waveform"></i></div>
+            <h3>3. Lifelike Voice Synthesis</h3>
+            <p>Our Text-to-Speech (TTS) engine renders the script into lifelike voices, creating a polished, ready-to-share audio file.</p>
+        </div>
+    </div>
+</section>
+
+<section class="vision-section fade-in" data-delay="0.5s">
+    <div>
+        <h2>Our Vision for the Future</h2>
+        <p>
+            This project showcases the potential of modern AI to foster a more personal connection with digital content. We envision a future where any piece of writing can be experienced as a conversation, making learning and information consumption more enjoyable and efficient for everyone.
+        </p>
+    </div>
+    <div class="vision-icon">
+        <i class="fas fa-rocket"></i>
+    </div>
+</section>
+
+<section class="cta-section fade-in">
+    <h2>Ready to Hear Your Content Come Alive?</h2>
+    <p>Transform your first document into a podcast in just a few minutes.</p>
+    <a href="{{ url_for('core_bp.dashboard') }}" role="button" class="btn btn-primary" style="margin-top: 1rem;">Try It Now for Free</a>
+</section>
+
+{% endblock %}

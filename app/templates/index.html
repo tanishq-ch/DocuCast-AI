@@ -1,0 +1,29 @@
+{# {% extends "base.html" %} #}
+
+{# {% block content %} #}
+{#     <div style="text-align: center; padding: 4rem 1rem;"> #}
+{#         <hgroup> #}
+{#             <h1>Create Engaging Podcasts from Any Text</h1> #}
+{#             <h2>Transform your documents into multi-speaker conversations with the power of AI.</h2> #}
+{#         </hgroup> #}
+{#         <p> #}
+{#             <a href="#" role="button" class="contrast">Get Started Now</a> #}
+{#         </p> #}
+{#     </div> #}
+{# {% endblock %} #}
+
+
+
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="hero fade-in">
+        <h1 class="fade-in" data-delay="0.2s">Transform Any Document into a Podcast</h1>
+        <p class="hero-subtitle fade-in" data-delay="0.4s">
+            Simply upload your PDF or text file, and our AI will generate a natural, multi-speaker audio conversation for you to listen to anywhere.
+        </p>
+        <div class="fade-in" data-delay="0.6s">
+            <a href="{{ url_for('auth_bp.signup') }}" role="button" class="btn btn-primary">Get Started for Free</a>
+        </div>
+    </section>
+{% endblock %}

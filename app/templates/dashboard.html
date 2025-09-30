@@ -1,0 +1,188 @@
+{# {% extends "base.html" %} #}
+
+{# {% block content %} #}
+{#     <hgroup> #}
+{#         <h2>Dashboard</h2> #}
+{#         <h3>Welcome back, {{ current_user.username }}!</h3> #}
+{#     </hgroup> #}
+    
+{#     <!-- Upload Form --> #}
+{#     <article> #}
+{#         <header><strong>Generate a New Podcast</strong></header> #}
+{#         <form method="POST" enctype="multipart/form-data" novalidate> #}
+{#             {{ form.hidden_tag() }} <!-- CSRF Token --> #}
+{#             <label> #}
+{#                 {{ form.file.label }} #}
+{#                 {{ form.file() }} #}
+{#                 {% for error in form.file.errors %} #}
+{#                     <small style="color: red;">{{ error }}</small> #}
+{#                 {% endfor %} #}
+{#             </label> #}
+{#             {{ form.submit() }} #}
+{#         </form> #}
+{#     </article> #}
+
+{#     <!-- Podcast History --> #}
+{#     <article> #}
+{#         <header><strong>Your Podcast History</strong></header> #}
+{#         {% if podcasts %} #}
+{#         <table> #}
+{#             <thead> #}
+{#                 <tr> #}
+{#                     <th scope="col">Original File</th> #}
+{#                     <th scope="col">Date Created</th> #}
+{#                     <th scope="col">Status</th> #}
+{#                     <th scope="col">Download</th> #}
+{#                 </tr> #}
+{#             </thead> #}
+{#             <tbody> #}
+{#             {% for podcast in podcasts %} #}
+{#                 <tr> #}
+{#                     <td>{{ podcast.original_filename }}</td> #}
+{#                     <td>{{ podcast.created_at.strftime('%Y-%m-%d %H:%M') }}</td> #}
+{#                     <td> #}
+{#                         {% if podcast.status == 'completed' %} #}
+{#                             <span style="color: green;">✔ Completed</span> #}
+{#                         {% elif podcast.status == 'processing' %} #}
+{#                             <span style="color: orange;">⏳ Processing...</span> #}
+{#                         {% else %} #}
+{#                             <span style="color: red;">✖ Failed</span> #}
+{#                         {% endif %} #}
+{#                     </td> #}
+{#                     <td> #}
+{# 						{% if podcast.status == 'ompleted' and podcast.generated_audio_path %} #}
+{# 							<a href="{{ url_for('core_bp.download_podcast', podcast_id=podcast.id) }}" #}
+{# 							role="button" class="outline">Listen</a> #}
+{# 						{% elif podcast.status == 'processing' %} #}
+{# 							<a href="#" role="button" class="outline" disabled>Processing..</a> #}
+{# 						{% else %} #}
+{# 							<span>N/A</span> #}
+{# 						{% endif %} #}
+{# 					</td> #}
+{#                 </tr> #}
+{#             {% endfor %} #}
+{#             </tbody> #}
+{#         </table> #}
+{#         {% else %} #}
+{#         <p>You haven't generated any podcasts yet.</p> #}
+{#         {% endif %} #}
+{#     </article> #}
+{# {% endblock %} #}
+
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="fade-in">
+        <hgroup style="margin-top: 2rem; margin-bottom: 2rem;">
+            <h2>Dashboard</h2>
+            <h3>Welcome back, {{ current_user.username }}!</h3>
+        </hgroup>
+        
+        <div class="dashboard-grid">
+            <article class="card upload-card">
+                <header class="card-header">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Generate New Podcast</h3>
+                </header>
+                <form method="POST" enctype="multipart/form-data" novalidate>
+                    {{ form.hidden_tag() }} <div class="form-group">
+                        {{ form.file.label(for="file-upload", class="custom-file-upload") }}
+                        <label for="file-upload" class="custom-file-upload">
+                            <i class="fas fa-file-pdf"></i>
+                            <p><strong>Click to upload</strong> or drag and drop</p>
+                            <small style="color: var(--text-muted-color);">PDF or TXT files only</small>
+                        </label>
+                        {{ form.file(id="file-upload") }}
+                         <div id="file-upload-filename"></div>
+                        {% for error in form.file.errors %}
+                            <small class="error-message">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    {{ form.submit(class="btn btn-primary", style="width: 100%;") }}
+                </form>
+            </article>
+
+            <article class="card">
+                <header class="card-header">
+                    <h3>Your Podcast History</h3>
+                </header>
+                {% if podcasts %}
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Original File</th>
+                                <th scope="col">Date Created</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for podcast in podcasts %}
+                            <tr>
+                                <td>{{ podcast.original_filename }}</td>
+                                <td>{{ podcast.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <td>
+                                    {% if podcast.status == 'completed' %}
+                                        <span class="status-badge status-completed"><i class="fas fa-check-circle"></i> Completed</span>
+                                    {% elif podcast.status == 'processing' %}
+                                        <span class="status-badge status-processing"><i class="fas fa-spinner fa-spin"></i> Processing</span>
+                                    {% else %}
+                                        <span class="status-badge status-failed"><i class="fas fa-times-circle"></i> Failed</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if podcast.status == 'completed' and podcast.generated_audio_path %}
+                                        <a href="{{ url_for('core_bp.download_podcast', podcast_id=podcast.id) }}"
+                                        role="button" class="btn btn-outline">Listen</a>
+                                    {% elif podcast.status == 'processing' %}
+                                        <a href="#" role="button" class="btn btn-outline" disabled style="opacity: 0.5; cursor: not-allowed;">Processing..</a>
+                                    {% else %}
+                                        <span>N/A</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+				<!-- Add your pagination block here -->
+{% if pagination and pagination.pages > 1 %}
+<nav class="pagination-nav">
+    <ul>
+        <!-- Previous Page Link -->
+        {% if pagination.has_prev %}
+            <li><a href="{{ url_for('core_bp.dashboard', page=pagination.prev_num) }}">&laquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+
+        <!-- Page Number Links -->
+        {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if pagination.page == page_num %}
+                    <li><a href="#" class="active">{{ page_num }}</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('core_bp.dashboard', page=page_num) }}">{{ page_num }}</a></li>
+                {% endif %}
+            {% else %}
+                <li><span class="ellipsis">…</span></li>
+            {% endif %}
+        {% endfor %}
+
+        <!-- Next Page Link -->
+        {% if pagination.has_next %}
+            <li><a href="{{ url_for('core_bp.dashboard', page=pagination.next_num) }}">&raquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+                {% else %}
+                <p>You haven't generated any podcasts yet. Upload a file to get started!</p>
+                {% endif %}
+            </article>
+        </div>
+    </div>
+{% endblock %}

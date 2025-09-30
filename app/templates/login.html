@@ -1,0 +1,81 @@
+{# {% extends "base.html" %} #}
+
+{# {% block content %} #}
+{#     <article> #}
+{#         <header><h2>Log In</h2></header> #}
+{#         <form method="POST" action="" novalidate> #}
+{#             {{ form.hidden_tag() }} <!-- CSRF Protection Token --> #}
+
+{#             <label> #}
+{#                 {{ form.email.label }} #}
+{#                 {{ form.email(size=32) }} #}
+{#                 {% for error in form.email.errors %} #}
+{#                 <small style="color: red;">{{ error }}</small> #}
+{#                 {% endfor %} #}
+{#             </label> #}
+
+{#             <label> #}
+{#                 {{ form.password.label }} #}
+{#                 {{ form.password(size=32) }} #}
+{#                 {% for error in form.password.errors %} #}
+{#                 <small style="color: red;">{{ error }}</small> #}
+{#                 {% endfor %} #}
+{#             </label> #}
+            
+{#             <fieldset> #}
+{#                 <label> #}
+{#                     {{ form.remember() }} #}
+{#                     {{ form.remember.label }} #}
+{#                 </label> #}
+{#             </fieldset> #}
+            
+{#             {{ form.submit() }} #}
+{#         </form> #}
+{#         <footer> #}
+{#             <small>Need An Account? <a href="{{ url_for('auth_bp.signup') }}">Sign Up Now</a></small> #}
+{#         </footer> #}
+{#     </article> #}
+{# {% endblock %} #}
+ 
+
+
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 450px; margin: 4rem auto;">
+    <article class="card fade-in">
+        <header class="card-header">
+            <h2>Welcome Back</h2>
+        </header>
+        <form method="POST" action="" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(class="form-control", placeholder="you@example.com") }}
+                {% for error in form.email.errors %}
+                    <small class="error-message">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-control", placeholder="••••••••") }}
+                {% for error in form.password.errors %}
+                    <small class="error-message">{{ error }}</small>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group form-check">
+                {{ form.remember() }}
+                {{ form.remember.label }}
+            </div>
+            
+            {{ form.submit(class="btn btn-primary", style="width: 100%;") }}
+        </form>
+        <footer class="form-footer">
+            <small>Need an account? <a href="{{ url_for('auth_bp.signup') }}">Sign Up Now</a></small>
+        </footer>
+    </article>
+</div>
+{% endblock %}
