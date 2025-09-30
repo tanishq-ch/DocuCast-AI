@@ -547,3 +547,22 @@ tbody tr:hover {
 .pagination-nav .ellipsis {
     padding: 0.5rem 0;
 }
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem; /* Adds a small space between buttons */
+    align-items: center;
+}
+
+/* Make the delete form take up no extra space */
+.action-buttons form {
+    margin-bottom: 0;
+}
+
+/* Style for the delete button */
+.delete-btn {
+    --primary: #d32f2f; /* A shade of red */
+    --primary-hover: #c62828;
+    --primary-focus: rgba(211, 47, 47, 0.25);
+    --primary-inverse: #fff;
+}
