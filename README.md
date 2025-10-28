@@ -1,4 +1,5 @@
-# AI Podcast Creator 🎙️✨
+# DocuCast AI – Turn documents into podcasts, intelligently<img width="2035" height="175" alt="image" src="https://github.com/user-attachments/assets/279ee25f-95ea-48f1-82a4-a077366bf753" />
+ 🎙️✨
 
 **Transform any PDF or text document into a dynamic, multi-speaker podcast using the power of generative AI.**
 
